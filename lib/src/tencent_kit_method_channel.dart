@@ -75,12 +75,14 @@ class MethodChannelTencentKit extends TencentKitPlatform {
 
   @override
   Future<void> login({
+    required String localAppId,
     required List<String> scope,
   }) {
     return methodChannel.invokeMethod<void>(
       'login',
       <String, dynamic>{
         'scope': scope.join(','),
+        'localAppId': localAppId,
       },
     );
   }

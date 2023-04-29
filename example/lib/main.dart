@@ -103,6 +103,7 @@ class _HomeState extends State<Home> {
             title: Text('登录'),
             onTap: () {
               TencentKitPlatform.instance.login(
+                localAppId: 'tencent123456',
                 scope: <String>[TencentScope.kGetSimpleUserInfo],
               );
             },

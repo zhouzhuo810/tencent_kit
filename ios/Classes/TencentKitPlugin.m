@@ -88,8 +88,9 @@ enum TencentRetCode {
 - (void)login:(FlutterMethodCall *)call result:(FlutterResult)result {
     if (_oauth != nil) {
         NSString *scope = call.arguments[@"scope"];
+        NSString *localAppId = call.arguments[@"localAppId"];
         NSArray *permissions = [scope componentsSeparatedByString:@","];
-        [_oauth authorize:permissions localAppId: _appId];
+        [_oauth authorize:permissions localAppId: localAppId];
     }
     result(nil);
 }
