@@ -24,6 +24,7 @@ enum TencentRetCode {
 @implementation TencentKitPlugin {
     FlutterMethodChannel *_channel;
     TencentOAuth *_oauth;
+    NSString *_appId;
 }
 
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar> *)registrar {
@@ -51,14 +52,14 @@ enum TencentRetCode {
         [TencentOAuth setIsUserAgreedAuthorization:[granted boolValue]];
         result(nil);
     } else if ([@"registerApp" isEqualToString:call.method]) {
-        NSString *appId = call.arguments[@"appId"];
+        _appId = call.arguments[@"appId"];
         NSString *universalLink = call.arguments[@"universalLink"];
         if (universalLink != nil) {
-            _oauth = [[TencentOAuth alloc] initWithAppId:appId
+            _oauth = [[TencentOAuth alloc] initWithAppId:_appId
                                         andUniversalLink:universalLink
                                              andDelegate:self];
         } else {
-            _oauth = [[TencentOAuth alloc] initWithAppId:appId andDelegate:self];
+            _oauth = [[TencentOAuth alloc] initWithAppId:_appId andDelegate:self];
         }
         result(nil);
     } else if ([@"isQQInstalled" isEqualToString:call.method]) {
@@ -88,7 +89,7 @@ enum TencentRetCode {
     if (_oauth != nil) {
         NSString *scope = call.arguments[@"scope"];
         NSArray *permissions = [scope componentsSeparatedByString:@","];
-        [_oauth authorize:permissions];
+        [_oauth authorize:permissions localAppId: _appId];
     }
     result(nil);
 }
