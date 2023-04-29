@@ -59,6 +59,7 @@ abstract class TencentKitPlatform extends PlatformInterface {
 
   /// 登录
   Future<void> login({
+    required String localAppId,
     required List<String> scope,
   }) {
     throw UnimplementedError(
